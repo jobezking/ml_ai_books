@@ -40,3 +40,33 @@ print("Pandas version: {}".format(pd.__version__))
 print("NumPy version: {}".format(np.__version__))
 print("SciPy version: {}".format(sparse.__version__))
 print("Matplotlib version: {}".format(plt.__version__)) 
+
+from sklearn.datasets import load_iris
+iris_data = load_iris()
+print("Keys of iris_data:\n{}".format(iris_data.keys()))
+print(iris_data['DESCR'][:193] + "\n...")
+print("Target names: {}".format(iris_data['target_names']))
+print("Feature names:\n{}".format(iris_data['feature_names']))
+print("Type of data: {}".format(type(iris_data['data'])))
+print("Shape of data: {}".format(iris_data['data'].shape))
+print("First five columns of data:\n{}".format(iris_data['data'][:5]))
+print("Type of target: {}".format(type(iris_data['target'])))
+print("Shape of target: {}".format(iris_data['target'].shape))
+print("Target:\n{}".format(iris_data['target']))
+print("First five targets:\n{}".format(iris_data['target'][:5]))
+
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(
+    iris_data['data'], iris_data['target'], random_state=0)
+print("X_train shape: {}".format(X_train.shape))
+print("y_train shape: {}".format(y_train.shape))
+print("X_test shape: {}".format(X_test.shape))
+print("y_test shape: {}".format(y_test.shape))  
+
+#create dataframe from data in X_train
+#label the columns using the strings in iris_data.feature_names
+iris_dataframe = pd.DataFrame(X_train, columns=iris_data.feature_names)
+#create a scatter matrix from the dataframe, color by y_train
+pd.plotting.scatter_matrix(iris_dataframe, c=y_train, figsize=(15, 15), marker='o',
+                           hist_kwds={'bins': 20}, s=60, alpha=.8, cmap=mglearn.cm3)
+plt.show()
